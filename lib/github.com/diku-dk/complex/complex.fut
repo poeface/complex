@@ -25,6 +25,11 @@ module type complex = {
   -- | Construct a complex number from i64.  The
   -- imaginary part will be zero.
   val i64: i64 -> complex
+  -- | Construct a complex number from f64.  The
+  -- imaginary part will be zero.
+  val f64: f64 -> complex
+  -- | Check if a complex number contains nans.
+  val isnan: complex -> bool
 
   -- | Conjugate a complex number.
   val conj: complex -> complex
@@ -46,10 +51,12 @@ module type complex = {
   val /: complex -> complex -> complex
   val **: complex -> complex -> complex
 
+  val ==: complex -> complex -> bool
   val <: complex -> complex -> bool
   val >: complex -> complex -> bool
   val >=: complex -> complex -> bool
   val <=: complex -> complex -> bool
+  val !=: complex -> complex -> bool
 
   val sqrt: complex -> complex
   val exp: complex -> complex
@@ -73,6 +80,8 @@ module mk_complex(T: real): (complex with real = T.t
   def mk_re (a: real) = (a, T.i32 0)
   def mk_im (b: real) = (T.i32 0, b)
   def i64 (a: i64) = mk_re (T.i64 a)
+  def f64 (a: f64) = mk_re (T.f64 a)
+  def isnan ((a,b): complex) = T.isnan a || T.isnan b
 
   def conj ((a,b): complex) = T.((a, i32 0 - b))
   def neg ((a,b): complex) = T.((i32 0 - a, i32 0 - b))
@@ -108,10 +117,12 @@ module mk_complex(T: real): (complex with real = T.t
   def abs (a: complex) =
     mk_re (mag a)
 
+  def ((a,b): complex) == ((c,d): complex) = T.(a == c && b == d)
   def (a: complex) < (b: complex) = (re (abs a)) T.< (re (abs b))
   def (a: complex) > (b: complex) = (re (abs a)) T.> (re (abs b))
   def (a: complex) >= (b: complex) = !(a < b)
   def (a: complex) <= (b: complex) = !(a > b)
+  def ((a,b): complex) != ((c,d): complex) = T.(a != c || b != d)
 
   def fma ((a,b): complex) ((c,d): complex) ((e,f): complex) =
     let r = T.fma a c e T.- b T.* d

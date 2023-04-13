@@ -211,3 +211,44 @@ entry test_sum (a: []f32) (b: []f32) =
 entry test_i64 (a: i64)  =
   let x = c32.i64 a
   in (c32.re x, c32.im x)
+
+-- ==
+-- entry: test_f64
+-- input { 3.14159f64 }
+-- output { 3.14159f32 0f32 }
+entry test_f64 (a: f64)  =
+  let x = c32.f64 a
+  in (c32.re x, c32.im x)
+
+-- ==
+-- entry: test_isnan
+-- input { f32.nan }
+-- output { true }
+-- input { 1f32 }
+-- output { false }
+entry test_isnan (a: f32) = c32.isnan (a, 0f32)
+
+-- ==
+-- entry: test_equality
+-- input { 1f32 2f32 3f32 4f32}
+-- output { false }
+-- input { 1f32 2f32 1f32 2f32}
+-- output { true }
+entry test_equality (a: f32) (b: f32) (c: f32) (d: f32) =
+    let x = (a, b)
+    let y = (c, d)
+    in c32.(x == y)
+
+-- ==
+-- entry: test_inequality
+-- input { 1f32 2f32 3f32 4f32}
+-- output { true }
+-- input { 1f32 2f32 1f32 2f32}
+-- output { false }
+entry test_inequality (a: f32) (b: f32) (c: f32) (d: f32) =
+    let x = (a, b)
+    let y = (c, d)
+    in c32.(x != y)
+
+
+
