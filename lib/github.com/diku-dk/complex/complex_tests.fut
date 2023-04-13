@@ -229,6 +229,14 @@ entry test_f64 (a: f64)  =
 entry test_isnan (a: f32) = c32.isnan (a, 0f32)
 
 -- ==
+-- entry: test_isinf
+-- input { f32.inf }
+-- output { true }
+-- input { 1f32 }
+-- output { false }
+entry test_isinf (a: f32) = c32.isinf (a, 0f32)
+
+-- ==
 -- entry: test_equality
 -- input { 1f32 2f32 3f32 4f32}
 -- output { false }

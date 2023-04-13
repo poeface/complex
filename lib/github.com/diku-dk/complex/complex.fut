@@ -30,6 +30,8 @@ module type complex = {
   val f64: f64 -> complex
   -- | Check if a complex number contains nans.
   val isnan: complex -> bool
+  -- | Check if a complex number contains infs.
+  val isinf: complex -> bool
 
   -- | Conjugate a complex number.
   val conj: complex -> complex
@@ -82,6 +84,7 @@ module mk_complex(T: real): (complex with real = T.t
   def i64 (a: i64) = mk_re (T.i64 a)
   def f64 (a: f64) = mk_re (T.f64 a)
   def isnan ((a,b): complex) = T.isnan a || T.isnan b
+  def isinf ((a,b): complex) = T.isinf a || T.isinf b
 
   def conj ((a,b): complex) = T.((a, i32 0 - b))
   def neg ((a,b): complex) = T.((i32 0 - a, i32 0 - b))
