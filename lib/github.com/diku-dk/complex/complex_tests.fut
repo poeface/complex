@@ -72,6 +72,8 @@ entry test_div (a: f32) (b: f32) (c: f32) (d: f32) =
 -- entry: test_sqrt
 -- input { 2f32 3f32 }
 -- output { 1.674149f32 0.895977f32 }
+-- input { -1f32 0f32 }
+-- output { 0f32 1f32 }
 entry test_sqrt (a: f32) (b: f32) =
   let x = c32.sqrt (c32.mk a b)
   in (c32.re x, c32.im x)

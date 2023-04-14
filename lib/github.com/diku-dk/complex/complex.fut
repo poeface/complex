@@ -106,7 +106,8 @@ module mk_complex(T: real): (complex with real = T.t
 
   def sqrt ((a,b): complex) =
     let gamma = T.(sqrt ((a + sqrt (a * a + b * b)) / i32 2))
-    let delta = T.(sgn b *
+    -- let delta = T.(sgn b *
+    let delta = T.((if b >= i32 0 then i32 1 else i32 (-1)) *
                    sqrt (((i32 0 - a) + sqrt (a * a + b * b)) / i32 2))
     in (gamma, delta)
 
